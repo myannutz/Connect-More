@@ -1,8 +1,8 @@
-# Problem:
+Problem:
 The program we will create is meant to be an artificial intelligence that is able to play competitive 2-player games. This problem has several parts to solve, including how the AI decides what move to take, how it evaluates the favorability of a particular game state, and how it will predict the player’s choices. The design of the program will allow for implementation of different games, although our project will mainly feature an interactive implementation of Connect Four to demonstrate the algorithms used.
 
-# Design:
-## Data Structures:
+Design:
+Data Structures:
 The program will use a directed graph in the form of a game tree to store all possible game states to a certain depth. Each node of the graph is a TreeNode class, storing:
 -a unique game state struct describing the game board, 
 -a vector of pointers to the node’s children, 
@@ -14,7 +14,7 @@ The current game state will be stored separately in the GameState class, which c
 -a function to determine whether a given move is valid
 -a function which returns a vector of GameState objects representing all of the possible moves a player could make
 
-## Program Architecture
+Program Architecture
 The Driver file includes
 -a master GameState object representing the current board
 -an AI object that takes turns against the player
@@ -26,7 +26,7 @@ The AI Class includes
 -a private minimax function to recursively evaluate the children of the current node, to help in choosing the move
 -a private heuristic function to help with the minimax evaluation
 
-## Important components & program flow
+Important components & program flow
 AI getBestMove() function:
 -Accepts the current GameState as a parameter
 -Traverses the graph to find that game state’s children
