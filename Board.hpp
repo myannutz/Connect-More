@@ -7,6 +7,8 @@ private:
 public:
   Board();
   ~Board();
+  
   bool isValidMove(int m);
   void move(int m);
+  void print();
 };
