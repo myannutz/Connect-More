@@ -1,0 +1,10 @@
+Stage 1: Project Proposal (to be submitted by April 4th on Moodle)
+20% of the overall project grade
+The project proposal must contain about 1-2 pages that talks about the story, the problem you
+are going to solve, design and the type of the data structure you will be using.
+Proposal Presentation
+All groups have to give a short (2min) presentation on their proposal on April 2nd/ April 4th
+(according to your respective recitation timing in this week) in your respective recitation classes.
+You can choose to make a set of slides for the presentation or use the same proposal document
+you submitted on Moodle. You will be evaluated by 2 TAs during the recitation.
+If you want, you can create flow charts using - https://lucidchart.com
