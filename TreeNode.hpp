@@ -2,6 +2,7 @@
 #define TREENODE_HPP
 
 #include<vector>
+#include "GameState.hpp"
 
 class TreeNode {
 private:
