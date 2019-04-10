@@ -15,6 +15,7 @@ public:
   virtual std::vector<std::string> getValidMoves();
   virtual bool isValid(std::string move);
   virtual void print();
+  virtual int heuristic();
 };
 
 #endif
