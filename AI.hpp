@@ -9,7 +9,6 @@ private:
   TreeNode *gameTree;
 
   int minimax(TreeNode *T, int depth, bool player);
-  int heuristic(GameState &gs);
 public:
   AI();
   ~AI();
