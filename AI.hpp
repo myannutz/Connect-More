@@ -1,3 +1,6 @@
+#ifndef AI_HPP
+#define AI_HPP
+
 #include "GameTree.hpp"
 
 class AI {
@@ -15,3 +18,5 @@ public:
   
   int getBestMove(GameState gs);
 };
+
+#endif
