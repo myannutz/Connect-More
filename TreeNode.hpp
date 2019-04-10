@@ -1,10 +1,7 @@
-#include<vector>
+#ifndef TREENODE_HPP
+#define TREENODE_HPP
 
-struct GameState {
-  int **board;
-  GameState();
-  ~GameState();
-};
+#include<vector>
 
 class TreeNode {
 private:
@@ -17,3 +14,5 @@ public:
   std::vector<TreeNode*> *getChildren();
   GameState *getGameState();
 };
+
+#endif
