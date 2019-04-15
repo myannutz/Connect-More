@@ -2,6 +2,7 @@
 #define AI_HPP
 
 #include "TreeNode.hpp"
+#include "GameState.hpp"
 
 class AI {
 private:
