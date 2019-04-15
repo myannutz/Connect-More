@@ -11,11 +11,11 @@ public:
   GameState();
   ~GameState();
   
-  virtual GameState move(std::string move);
-  virtual std::vector<std::string> getValidMoves();
-  virtual bool isValid(std::string move);
-  virtual void print();
-  virtual int heuristic();
+  virtual GameState move(std::string move) = 0;
+  virtual std::vector<std::string> getValidMoves() = 0;
+  virtual bool isValid(std::string move) = 0;
+  virtual void print() = 0;
+  virtual int heuristic() = 0;
 };
 
 #endif
