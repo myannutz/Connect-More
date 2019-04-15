@@ -7,8 +7,8 @@
 
 class AI {
 private:
-  static const bool HUMAN = false;
-  static const bool AI = true;
+  static const bool HUMAN_PLAYER = false;
+  static const bool AI_PLAYER = true;
   
   int maxDepth;
   TreeNode *gameTree;
