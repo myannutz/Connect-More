@@ -1,7 +1,7 @@
 #ifndef AI_HPP
 #define AI_HPP
 
-#include "GameTree.hpp"
+#include "TreeNode.hpp"
 
 class AI {
 private:
