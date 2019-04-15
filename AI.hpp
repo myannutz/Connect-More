@@ -13,7 +13,7 @@ private:
   int maxDepth;
   TreeNode *gameTree;
 
-  int minimax(TreeNode *T, int depth, bool player);
+  int minimax(TreeNode *T);
 public:
   AI();
   ~AI();
