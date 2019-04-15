@@ -3,6 +3,7 @@
 
 #include "TreeNode.hpp"
 #include "GameState.hpp"
+#include <string>
 
 class AI {
 private:
@@ -17,7 +18,7 @@ public:
   AI();
   ~AI();
   
-  int getBestMove(GameState gs);
+  std::string getBestMove(GameState gs);
 };
 
 #endif
