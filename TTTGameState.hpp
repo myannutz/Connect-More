@@ -4,7 +4,9 @@
 #include "GameState.hpp"
 
 class TTTGameState : public GameState {
-  
+public:
+  TTTGameState();
+  ~TTTGameState();
 };
 
 #endif
