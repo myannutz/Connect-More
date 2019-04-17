@@ -6,8 +6,8 @@
 
 class GameState {
 private:
-  char **board;
 public:
+  char *board;
   GameState();
   ~GameState();
   
