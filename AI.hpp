@@ -1,17 +1,19 @@
 #ifndef AI_HPP
 #define AI_HPP
 
-#include "GameTree.hpp"
+#include "TreeNode.hpp"
+#include "GameState.hpp"
+#include <string>
 
 class AI {
 private:
-  static const bool HUMAN = false;
-  static const bool AI = true;
+  static const bool HUMAN_PLAYER = false;
+  static const bool AI_PLAYER = true;
 
   int maxDepth;
   TreeNode *gameTree;
 
-  int minimax(TreeNode *T, int depth, bool player);
+  int minimax(TreeNode *T);
 public:
   AI(GameState gs, int treeDepth){
 
@@ -20,8 +22,8 @@ public:
 
   }; //Inline for now
   ~AI();
-
-  int getBestMove(GameState gs);
+  
+  std::string getBestMove(GameState gs);
 };
 
 #endif

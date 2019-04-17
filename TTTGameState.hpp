@@ -17,7 +17,6 @@ public:
   int isWin(); //0 for no win, 1 for player, 2 for AI
   void print();
   char* getBoard();
-  // int heuristic();
 };
 
 #endif
