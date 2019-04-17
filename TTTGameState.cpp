@@ -96,7 +96,7 @@ char* TTTGameState::getBoard(){
 // Both players can have 0, 1, 2, or 3 characters in sets of 3,
 //  which yields the Heuristic_Array.
 // Returns high for human player and low for AI
-//Not quite finished
+// Untested (couldn't compile due to vtable error)
 // int TTTGameState::heuristic() {
 //
 //   //Possible positions for pieces to win
