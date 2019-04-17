@@ -85,6 +85,12 @@ void TTTGameState::print(){
 
 }
 
+char* TTTGameState::getBoard(){
+
+  return board;
+
+}
+
 // Tic-tac-toe heuristic based on Kartik Kukreja's
 // https://kartikkukreja.wordpress.com/2013/03/30/heuristic-function-for-tic-tac-toe
 // Both players can have 0, 1, 2, or 3 characters in sets of 3,
