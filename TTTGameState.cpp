@@ -10,12 +10,12 @@ using namespace std;
 //Constructor - initialize a dynamic empty board of 9 characters
 TTTGameState::TTTGameState(){
 
-  char fuckThis[9] = {
+  char temp[9] = {
     ' ', ' ', ' ',
     ' ', ' ', ' ',
     ' ', ' ', ' '
   };
-  board = fuckThis;
+  board = temp;
 
 }
 
