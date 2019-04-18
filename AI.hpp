@@ -1,8 +1,8 @@
+
 #ifndef AI_HPP
 #define AI_HPP
 
 #include "TreeNode.hpp"
-#include "GameState.hpp"
 #include <string>
 
 class AI {
@@ -12,18 +12,14 @@ private:
 
   int maxDepth;
   TreeNode *gameTree;
+  bool player; //which player AI is (e.g. white/black, x/o)
 
   int minimax(TreeNode *T);
 public:
-  AI(GameState gs, int treeDepth){
-
-    //Initialize a gameTree on player's turn
-    gameTree = new TreeNode(gs, treeDepth, true);
-
-  }; //Inline for now
+  AI(bool player);
   ~AI();
-  
-  std::string getBestMove(GameState gs);
+
+  std::string getBestMove(GameState* gs);
 };
 
 #endif
