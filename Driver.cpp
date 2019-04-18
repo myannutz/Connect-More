@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+
 #define TIC_TAC_TOE_DEPTH 9
 
 using namespace std;
