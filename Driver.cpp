@@ -1,5 +1,6 @@
-#include<Board.hpp>
-#include<AI.hpp>
+#include "GameState.hpp"
+#include "AI.hpp"
+#include <iostream>
 #define TIC_TAC_TOE_DEPTH 9
 
 using namespace std;

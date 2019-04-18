@@ -10,10 +10,10 @@ public:
   char *board;
   GameState();
   ~GameState();
-  
+
   virtual GameState move(std::string move) = 0;
-  virtual std::vector<std::string> getValidMoves() = 0;
-  virtual bool isValid(std::string move) = 0;
+  virtual std::vector<std::string> getValidMoves(bool player) = 0;
+  virtual bool isValid(std::string move, bool player) = 0;
   virtual void print() = 0;
   virtual int heuristic() = 0;
 };
