@@ -5,18 +5,19 @@
 
 class TTTGameState : public GameState {
 private:
-  //Marks which character player and AI are (out of 'x' or 'o')
-  char playerChar;
-  char AIChar;
+  static const bool X_PLAYER = false;
+  static const bool O_PLAYER = true;
 public:
   TTTGameState();
+  TTTGameState(TTTGameState *toCopy);
   ~TTTGameState();
-  void move(std::string move);
-  std::vector<std::string> getValidMoves();
-  bool isValid(std::string move);
-  int isWin(); //0 for no win, 1 for player, 2 for AI
+
+  GameState *move(std::string move);
+  std::vector<std::string> getValidMoves(bool player);
+  bool isValid(std::string move, bool player);
   void print();
-  char* getBoard();
+  int heuristic(bool player);
+  bool isWon(bool player);
 };
 
 #endif
