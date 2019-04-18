@@ -1,146 +1,93 @@
-#include "GameState.hpp"
 #include "TTTGameState.hpp"
-
-#include <vector>
-#include <string>
 #include <iostream>
 
-using namespace std;
-
-//Constructor - initialize a dynamic empty board of 9 characters
-TTTGameState::TTTGameState(){
-
-  char temp[9] = {
-    ' ', ' ', ' ',
-    ' ', ' ', ' ',
-    ' ', ' ', ' '
-  };
-  board = temp;
-
-}
-
-//Destructor - delete the board
-TTTGameState::~TTTGameState(){
-
-  delete[] board;
-
-}
-
-//Make a move
-void TTTGameState::move(string move){
-
-  if(this->isValid(move)){
-
-    //Is there a better way to do this?
-    for(int i = 0; i < 9; i++){
-
-      this->board[i] = move.at(i);
-
+TTTGameState::TTTGameState() {
+  board = new char*[3];
+  for (int i = 0; i < 3; i++) {
+    board[i] = new char[3];
+    for (int j = 0; j < 3; j++) {
+      board[i][j] = ' ';
     }
-
   }
-
 }
 
-//Unfinished
-std::vector<std::string> TTTGameState::getValidMoves(){
-
-}
-
-//Checks a move (represented by a string) for validity
-bool TTTGameState::isValid(string move){
-
-  int moves = 0;
-
-  for(int i = 0; i < 9; i++){
-
-    /*
-      Wherever the current board and proposed move are different,
-      if the current board doesn't have an empty space, the move
-      is invalid.
-      If the proposed move differs from the current board in more
-      than one way, or if the boards are identical, the move is invalid.
-    */
-    if(board[i] != move.at(i)){
-
-      moves++;
-      if(move.at(i) != ' ') return false;
-
+TTTGameState::TTTGameState(TTTGameState *toCopy) {
+  board = new char*[3];
+  for (int i = 0; i < 3; i++) {
+    board[i] = new char[3];
+    for (int j = 0; j < 3; j++) {
+      board[i][j] = toCopy->board[i][j];
     }
-
   }
-
-  return moves != 1;
-
 }
 
-//Print the tic-tac-toe board for the user
-void TTTGameState::print(){
-
-  cout << "=====" << endl <<
-    "|" << board[0] << " " << board[0] << " " << board[0] << "|" << endl <<
-    "|" << board[0] << " " << board[0] << " " << board[0] << "|" << endl <<
-    "|" << board[0] << " " << board[0] << " " << board[0] << "|" << endl <<
-          "=====" << endl;
-
+TTTGameState::~TTTGameState() {
+  for (int i = 0; i < 3; i++) {
+    delete [] board[i];
+  }
+  delete [] board;
 }
 
-char* TTTGameState::getBoard(){
-
-  return board;
-
+GameState *TTTGameState::move(std::string move) {
+  int r = (int)move[0] - 48;
+  int c = (int)move[1] - 48;
+  char m = move[2];
+  TTTGameState* gs = new TTTGameState(this);
+  gs->board[r][c] = m;
+  return (GameState*)gs;
 }
 
-// Tic-tac-toe heuristic based on Kartik Kukreja's
-// https://kartikkukreja.wordpress.com/2013/03/30/heuristic-function-for-tic-tac-toe
-// Both players can have 0, 1, 2, or 3 characters in sets of 3,
-//  which yields the Heuristic_Array.
-// Returns high for human player and low for AI
-// Untested (couldn't compile due to vtable error)
-// int TTTGameState::heuristic() {
-//
-//   //Possible positions for pieces to win
-//   const int winConditions[8][3] =
-//     { 0, 1, 2 },
-//     { 3, 4, 5 },
-//     { 6, 7, 8 },
-//     { 0, 3, 6 },
-//     { 1, 4, 7 },
-//     { 2, 5, 8 },
-//     { 0, 4, 8 },
-//     { 2, 4, 6 }
-//   };
-//
-//   const int Heuristic_Array[4][4] = {
-//     {     0,   -10,  -100, -1000 },
-//     {    10,     0,     0,     0 },
-//     {   100,     0,     0,     0 },
-//     {  1000,     0,     0,     0 }
-//   };
-//
-//   char piece;
-//   int playerPos, AIPos;
-//   int score = 0;
-//
-//   for(int i = 0; i < 8; i++){
-//
-//     playerPos = AIPos = 0;
-//
-//     for (int j = 0; j < 3; j++){
-//
-//       piece = board[winConditions[i][j]];
-//
-//       if (piece == this->playerChar)
-//         playerPos++;
-//       else if (piece == this->AIChar)
-//         AIPos++;
-//
-//     }
-//
-//     score += Heuristic_Array[playerPos][AIPos];
-//
-//   }
-//
-//   return score;
-//
-// }
+std::vector<std::string> TTTGameState::getValidMoves(bool player) {
+  std::vector<std::string> moves;
+  //if (isWon(player) || isWon(!player)) return moves;
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      if (board[i][j] == ' ') {
+        std::string m = "";
+        m.append(std::to_string(i));
+        m.append(std::to_string(j));
+        if (player == O_PLAYER) m.append("o");
+        else m.append("x");
+        moves.push_back(m);
+      }
+    }
+  }
+  return moves;
+}
+
+bool TTTGameState::isValid(std::string move, bool player) {
+  int r = move[0] - 48;
+  int c = move[1] - 48;
+  char m = move[2];
+  bool validR = r > -1 && r < 3;
+  bool validC = r > -1 && r < 3;
+  bool validM = (player == X_PLAYER) ? m == 'x' : m == 'o';
+  bool empty = board[r][c] == ' ';
+  return validR && validC && validM && empty;
+}
+
+void TTTGameState::print() {
+  for (int i = 0; i < 3; i++) {
+    for (int j = 0; j < 3; j++) {
+      std::cout << board[i][j] << " ";
+    }
+    std::cout << std::endl;
+  }
+}
+
+int TTTGameState::heuristic(bool player) {
+  if (isWon(player)) return 1000;
+  if (isWon(!player)) return -1000;
+  return 0;
+}
+
+bool TTTGameState::isWon(bool player) {
+  char p = (player == O_PLAYER) ? 'o' : 'x';
+  for (int i = 0; i < 3; i++) {
+    if (board[i][0] == p && board[i][1] == p && board[i][2] == p) return true;
+    if (board[0][i] == p && board[1][i] == p && board[2][i] == p) return true;
+  }
+  if (board[0][0] == p && board[1][1] == p && board[2][2] == p) return true;
+  if (board[0][2] == p && board[1][1] == p && board[2][0] == p) return true;
+  return false;
+}
