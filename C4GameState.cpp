@@ -26,22 +26,16 @@ C4GameState::~C4GameState(){
 
 }
 
-//Returns the index of the topmost unfilled space in a particular column (-1 if column is full)
+//Returns the index of the bottom most unfilled space in a particular column (-1 if column is full)
 int C4GameState::getUnfilledRow(int column){
-
-  for(int i = 5; i <= 0; i--){
-
-    if(board[i][c] == ' ') return i;
-
+  for(int i = 0; i < 6; i--) {
+    if(board[i][column] == ' ') return i;
   }
-
   return -1;
-
 }
 
 //Pass a string as "cm" - c = column, m = character indicating which player
 GameState C4GameState::move(std::string move){
-
   int c = move[0] - 48;
   char m = move[1];
   board[getUnfilledRow(c)][c] = m;
@@ -85,7 +79,7 @@ void C4GameState::print(){
   for(int i = 0; i < 6; i++){
 
     cout << "|";
-    for(int  i = 0; i < 7; i++){
+    for(int  j = 0; j < 7; j++){
 
       cout << board[i][j] << "|";
 
@@ -98,31 +92,113 @@ void C4GameState::print(){
 }
 
 int C4GameState::count2(bool player){
+  char playerChar = 'o';
+  if (player == X_PLAYER) playerChar = 'x';
+  int count = 0;
 
-  //Horizontal
-  for(int  i = 0; i < 6; i++){
-
-    //Columns
-    for(int j = 0; j < 7; j++){
-
-      //Watch for double-counting
-
+  //horizontal
+  for (int r = 0; r < 6; r++){
+    for (int c = 0; c < 5; c++){
+      if (board[r][c] == playerChar && board[r][c + 1] == playerChar && board[r][c + 2] == ' ') count++;
+      if (board[r][c] == ' ' && board[r][c + 1] == playerChar && board[r][c + 2] == playerChar) count++;
     }
-
   }
-  
+
   //vertical
-  
+  for (int c = 0; c < 7; c++) {
+    for (int r = 0; r < 4; r++) {
+      if (board[r][c] == ' ' && board[r + 1][c] == playerChar && board[r + 2][c] == playerChar) count++;
+    }
+  }
+
   //diagonal
+  for (int r = 0; r < 4; r++){
+    for (int c = 0; c < 5; c++){
+      if (board[r][c] == playerChar && board[r + 1][c + 1] == playerChar &&
+          board[r + 2][c + 2] == ' ' && (r == 3 || board[r + 3][c + 2] != ' ')) count++;
+      if (board[r][c + 2] == playerChar && board[r + 1][c + 1] == playerChar &&
+          board[r + 2][c] == ' ' && (r == 3 || board[r + 3][c] != ' ')) count++;
+
+      if (board[r][c] == ' ' && board[r + 1][c + 1] == playerChar &&
+          board[r + 2][c + 2] == playerChar && board[r + 1][c] != ' ') count++;
+      if (board[r][c + 2] == ' ' && board[r + 1][c + 1] == playerChar &&
+          board[r + 2][c] == playerChar && board[r + 1][c + 2] != ' ') count++;
+    }
+  }
+  return count;
 }
 
-int C4GameState::count3(bool player){}
+int C4GameState::count3(bool player) {
+  char playerChar = 'o';
+  if (player == X_PLAYER) playerChar = 'x';
+  int count = 0;
 
-int C4GameState::count4(bool player) {}
+  //horizontal
+  for (int r = 0; r < 6; r++) {
+    for (int c = 0; c < 4; c++){
+      if (board[r][c] == playerChar && board[r][c + 1] == playerChar && board[r][c + 2] == playerChar && board[r][c + 3] == ' ') count++;
+      if (board[r][c] == ' ' && board[r][c + 1] == playerChar && board[r][c + 2] == playerChar && board[r][c + 3] == playerChar) count++;
+    }
+  }
+
+  //vertical
+  for (int c = 0; c < 7; c++) {
+    for (int r = 0; r < 3; r++) {
+      if (board[r][c] == ' ' && board[r + 1][c] == playerChar && board[r + 2][c] == playerChar && board[r + 3][c] == playerChar) count++;
+    }
+  }
+
+  //diagonal
+  for (int r = 0; r < 3; r++){
+    for (int c = 0; c < 4; c++){
+      if (board[r][c] == playerChar && board[r + 1][c + 1] == playerChar && board[r + 2][c + 2] == playerChar &&
+          board[r + 3][c + 3] == ' ' && (r == 2 || board[r + 4][c + 3] != ' ')) count++;
+      if (board[r][c + 3] == playerChar && board[r + 1][c + 2] == playerChar &&
+          board[r + 2][c + 1] == playerChar && board[r + 3][c] == ' ' && (r == 2 || board[r + 4][c] != ' ')) count++;
+
+      if (board[r][c] == ' ' && board[r + 1][c + 1] == playerChar &&
+          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar && board[r + 1][c] != ' ') count++;
+      if (board[r][c + 3] == ' ' && board[r + 1][c + 3] == playerChar &&
+          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar && board[r + 1][c + 3] != ' ') count++;
+    }
+  }
+  return count;
+}
+
+int C4GameState::isWon(bool player) {
+  char playerChar = 'o';
+  if (player == X_PLAYER) playerChar = 'x';
+
+  for (int r = 0; r < 6; r++){
+    for (int c = 0; c < 4; c++){
+      if (board[r][c] == playerChar && board[r][c + 1] == playerChar &&
+          board[r][c + 2] == playerChar && board[r][c + 3] == playerChar) return true
+    }
+  }
+
+  for (int c = 0; c < 7; c++) {
+    for (int r = 0; r < 3; r++) {
+      if (board[r][c] == playerChar && board[r + 1][c] == playerChar &&
+          board[r + 2][c] == playerChar && board[r + 3][c] == playerChar) return true
+    }
+  }
+
+  for (int r = 0; r < 3; r++){
+    for (int c = 0; c < 4; c++){
+      if (board[r][c] == playerChar && board[r + 1][c + 1] == playerChar &&
+          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar) return true
+      if (board[r][c + 3] == playerChar && board[r + 1][c + 2] == playerChar &&
+          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar) return true
+    }
+  }
+  return false;
+}
 
 //High value is good for AI. Low value is good for player.
 int C4GameState::heuristic(bool player){
-  int adv = count2(player) + 10*count3(player) + 10000*count4(player);
-  int dis = count2(!player) + 10*count3(!player) + 10000*count4(!player);
+  if (isWon(player)) return 10000;
+  if (isWon(!player)) return -10000;
+  int adv = count2(player) + 10*count3(player);
+  int dis = count2(!player) + 10*count3(!player);
   return adv - dis;
 }
