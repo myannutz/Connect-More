@@ -1,6 +1,7 @@
 #include "AI.hpp"
 #include "GameState.hpp"
 #include "TTTGameState.hpp"
+#include "C4GameState.hpp"
 
 #include <iostream>
 
@@ -28,7 +29,7 @@ string toMovestring(string input, bool player){
   else if(input == "4" || input == "5" || input == "6") input = "1";
   else input = "2";
   input += column;
-  input = (player) ? (input + 'x') : (input + 'o');
+  input = (player == TTTGameState::X_PLAYER) ? (input + 'x') : (input + 'o');
   return input;
 
 }
@@ -53,7 +54,6 @@ string tttPromptForMove(bool player){
   input = toMovestring(input, player);
 
   return input;
-
 }
 
 //Prompts user for choice of game to play (TTT or C4)
@@ -67,34 +67,75 @@ int gamePrompt(){
 
   string input;
   getline(cin, input);
-  if(inputInRange(input, 1, 2)) return stoi(input);
-
+  while (!inputInRange(input, 1, 2)) {
+    cout << "Invalid choice. Please choose again." << endl;
+    getline(cin, input);
+  }
+  return stoi(input);
 }
 
 //Drives tic tac toe
 void playTTT(){
 
   //TODO: Allow player to choose x or o
+  cout << "Which player would you like to be?" << endl;
+  cout << "1) x" << endl;
+  cout << "2) o" << endl;
+
+  string input = "";
+  getline(cin, input);
+  while (!inputInRange(input, 1, 2)) {
+    cout << "Invalid choice. Please choose again." << endl;
+    getline(cin, input);
+  }
+
+  bool player = false;
+  player = (input == "1") ? TTTGameState::X_PLAYER : TTTGameState::O_PLAYER;
 
   GameState* master = new TTTGameState;
-  AI ai(false);
-  string input;
-  string playerMove;
-  bool player;
+  AI ai(!player);
+  string playerMove = "";
 
   //Game
   while (true) {
-    //Print board
+    if (player == TTTGameState::O_PLAYER) {
+      string bm = ai.getBestMove(master);
+      cout << "AI is playing..." << bm << endl;
+      master = master->move(bm);
+      cout << endl;
+    }
+
     master->print();
     cout << endl;
 
+    if(master->isWon(player)){
+      master->print();
+      cout << "Player wins!!" << endl;
+      return;
+
+    }
+    if(master->isWon(!player)){
+
+      master->print();
+      cout << "AI wins!!" << endl;
+      return;
+
+    }
+    if(master->getValidMoves(player).empty() && master->getValidMoves(!player).empty()){
+
+      master->print();
+      cout << "Tie!" << endl;
+      return;
+
+    }
+
     //Player turn
     playerMove = tttPromptForMove(player);
-    if (master->isValid(playerMove, true)) {
+    if (master->isValid(playerMove, player)) {
       //cout << "Moving to " << playerMove << endl;
       master = master->move(playerMove);
     } else {
-      while (!master->isValid(playerMove, true)) {
+      while (!master->isValid(playerMove, player)) {
         cout << "Invalid move. Please choose again." << endl;
         getline(cin, playerMove);
         playerMove = toMovestring(playerMove, player);
@@ -103,27 +144,32 @@ void playTTT(){
       master = master->move(input);
     }
 
+    master->print();
+
     //AI turn
-    string bm = ai.getBestMove(master);
-    cout << "AI is playing..." << bm << endl;
-    master = master->move(bm);
+    if (player == TTTGameState::X_PLAYER) {
+      string bm = ai.getBestMove(master);
+      cout << "AI is playing..." << bm << endl;
+      master = master->move(bm);
+      cout << endl;
+    }
 
     //Check for win or tie
-    if(master->isWon(true)){
+    if(master->isWon(player)){
 
       master->print();
       cout << "Player wins!!" << endl;
       return;
 
     }
-    if(master->isWon(false)){
+    if(master->isWon(!player)){
 
       master->print();
       cout << "AI wins!!" << endl;
       return;
 
     }
-    if(master->getValidMoves(true).empty()){
+    if(master->getValidMoves(player).empty() && master->getValidMoves(!player).empty()){
 
       master->print();
       cout << "Tie!" << endl;
@@ -140,7 +186,7 @@ void playC4(){}
 
 int main() {
 
-  switch(gamePrompt()){
+  switch(gamePrompt()) {
     case 1:
       playTTT();
 

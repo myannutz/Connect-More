@@ -2,19 +2,23 @@
 #include <iostream>
 
 C4GameState::C4GameState(){
-
   board = new char*[6];
   for(int i = 0; i < 6; i++){
-
     board[i] = new char[7];
     for(int j = 0; j < 7; j++){
-
       board[i][j] = ' ';
-
     }
-
   }
+}
 
+C4GameState(C4GameState *toCopy) {
+  board = new char*[6];
+  for(int i = 0; i < 6; i++){
+    board[i] = new char[7];
+    for(int j = 0; j < 7; j++){
+      board[i][j] = toCopy->board[i][j];
+    }
+  }
 }
 
 C4GameState::~C4GameState(){
@@ -38,8 +42,9 @@ int C4GameState::getUnfilledRow(int column){
 GameState C4GameState::move(std::string move){
   int c = move[0] - 48;
   char m = move[1];
-  board[getUnfilledRow(c)][c] = m;
-
+  C4GameState* gs = new C4GameState(this);
+  gs->board[getUnfilledRow(c)][c] = m;
+  return (GameState*)gs;
 }
 
 std::vector<std::string> C4GameState::getValidMoves(bool player){
