@@ -101,17 +101,6 @@ void C4GameState::print(){
 
 }
 
-int C4GameState::count1(bool player){
-
-  for(int i = 0; i < 7; i++){
-
-    //Iterate through rows somehow, adding and subtracting from heuristic based
-    // on configuration of column
-
-  }
-
-}
-
 int C4GameState::count2(bool player){
 
   //Rows
@@ -134,16 +123,5 @@ int C4GameState::count4(bool player){}
 
 //High value is good for AI. Low value is good for player.
 int C4GameState::heuristic(bool player){
-  /*
-
-    Possible configurations:
-    1       1(),
-    10      ()1(), 2(),
-    100     ()2(), 3(),
-    1000    ()3(), 4
-
-  */
-
-  //Add vertical, horizontal, and diagonal heuristics
 
 }
