@@ -3,154 +3,150 @@
 #include "TTTGameState.hpp"
 
 #include <iostream>
-#include <string>
 
 #define TIC_TAC_TOE_DEPTH 9
 
 using namespace std;
 
-void menu() {
-  cout << "-------------------------------------" << endl;
-  cout << "Welcome to tic-tac-toe!" << endl;
-  cout << "Would you like to be x or o?" << endl;
-  cout << "-------------------------------------" << endl;
+//Checks a user-input string for validity
+//@param check the string to check
+//@param from the lower limit for check
+//@param to the upper limit for check
+bool inputInRange(string check, int from, int to){
+
+  return (check >= to_string(from) && check <= to_string(to));
+
 }
 
-// //For prompting the user at the beginning of a ttt game
-// //Unimplemented
-// char tttStart(){
-//
-//
-//
-// }
+//Converts the user's input string to a movestring usable by gs.move()
+//@param input the input string to convert
+//@param player whether player character is o
+string toMovestring(string input, bool player){
 
-int main() {
+  char column = (char)((stoi(input) - 1) % 3 + 48);
+  if(input == "1" || input == "2" || input == "3") input = "0";
+  else if(input == "4" || input == "5" || input == "6") input = "1";
+  else input = "2";
+  input += column;
+  input = (player) ? (input + 'x') : (input + 'o');
+  return input;
+
+}
+
+//Prompts user for move in ttt
+//@param player whether player character is o
+string tttPromptForMove(bool player){
+
+  cout << "Where would you like to move?" << endl;
+  cout << "(1, 2, 3," << endl <<
+          " 4, 5, 6," << endl <<
+          " 7, 8, 9)" << endl;
+  string input;
+  getline(cin, input);
+
+  while(!inputInRange(input, 1, 9)){
+
+   cout << "Invalid move. Please choose again." << endl;
+   getline(cin, input);
+
+  }
+  input = toMovestring(input, player);
+
+  return input;
+
+}
+
+//Prompts user for choice of game to play (TTT or C4)
+int gamePrompt(){
+
+  cout << "====================================" << endl;
+  cout << "Welcome! What game would you like to play?" << endl;
+  cout << "1) Tic-tac-toe" << endl;
+  cout << "2) Connect 4" << endl;
+  cout << "====================================" << endl;
+
+  string input;
+  getline(cin, input);
+  if(inputInRange(input, 1, 2)) return stoi(input);
+
+}
+
+//Drives tic tac toe
+void playTTT(){
+
+  //TODO: Allow player to choose x or o
+
   GameState* master = new TTTGameState;
   AI ai(false);
   string input;
+  string playerMove;
+  bool player;
+
+  //Game
   while (true) {
+    //Print board
     master->print();
     cout << endl;
-    getline(cin, input);
-    if (master->isValid(input, true)) {
-      master = master->move(input);
+
+    //Player turn
+    playerMove = tttPromptForMove(player);
+    if (master->isValid(playerMove, true)) {
+      //cout << "Moving to " << playerMove << endl;
+      master = master->move(playerMove);
     } else {
-      while (!master->isValid(input, true)) {
-       getline(cin, input);
+      while (!master->isValid(playerMove, true)) {
+        cout << "Invalid move. Please choose again." << endl;
+        getline(cin, playerMove);
+        playerMove = toMovestring(playerMove, player);
       }
+      //cout << "Moving to " << playerMove << endl;
       master = master->move(input);
     }
+
+    //AI turn
     string bm = ai.getBestMove(master);
-    cout << "ai best move: " << bm << endl;
+    cout << "AI is playing..." << bm << endl;
     master = master->move(bm);
+
+    //Check for win or tie
+    if(master->isWon(true)){
+
+      master->print();
+      cout << "Player wins!!" << endl;
+      return;
+
+    }
+    if(master->isWon(false)){
+
+      master->print();
+      cout << "AI wins!!" << endl;
+      return;
+
+    }
+    if(master->getValidMoves(true).empty()){
+
+      master->print();
+      cout << "Tie!" << endl;
+      return;
+
+    }
+
   }
-  delete master;
-  return 0;
+
 }
 
-//
-// //Returns true on game end
-// bool tttPlayerTurn(GameState &gs, char playerChar){
-//
-//   string input;
-//
-//   cout << "-------------" << endl;
-//   gs.print();
-//
-//   cout << "Which square would you like to choose?" << endl;
-//   cout <<
-//     "(1, 2, 3," << endl <<
-//     " 4, 5, 6," << endl <<
-//     " 7, 8, 9)"
-//   << endl;
-//
-//   getline(cin, input);
-//
-//   //Check input for validity
-//   while(input < "1" || input > "9"){
-//
-//     cout << "Invalid input, please try again" << endl;
-//     getline(cin, input);
-//
-//   }
-//
-//   char* proposed = {"YEEEEEEET"};
-//   do{
-//
-//     cout << "Move is invalid, please choose again" << endl;
-//     getline(cin, input);
-//     proposed = gs.getBoard();
-//     proposed[stoi(input)] = playerChar;
-//
-//   }while(!gs.isValid(proposed));
-//
-//   gs.move(proposed);
-//
-//   return gs.isWin() != 0;
-//
-// }
-//
-// //Returns true on game end
-// bool tttAITurn(GameState &gs, AI &bot, char AIChar){
-//
-//   int move = bot.getBestMove();
-//   char* proposed = gs.getBoard();
-//
-//   proposed[move] = AIChar;
-//   gs.move(proposed);
-//
-//   return gs.isWin() != 0;
-//
-// }
-//
-// int main() {
-//
-//   string input;
-//   char playerChar;
-//   char AIChar;
-//
-//   menu();
-//   getline(cin, input);
-//
-//   while(input != "x" && input != "o" && input != "X" && input != "O"){
-//
-//     cout << "Please enter a valid input" << endl;
-//     getline(cin, input);
-//
-//   }
-//
-//   if(input == "x" || input == "X"){
-//
-//     playerChar = 'x';
-//     AIChar = 'o';
-//
-//   }else{
-//
-//     playerChar = 'o';
-//     AIChar = 'x';
-//
-//   }
-//
-//   TTTGameState gameState;
-//   AI tttBot = AI(start, TIC_TAC_TOE_DEPTH);
-//
-//   while(true){
-//
-//     if(tttPlayerTurn(gameState, playerChar)) break;
-//     if(tttAITurn(gameState, AIChar)) break;
-//
-//   }
-//
-//   if(gs.isWin() == 1){
-//
-//     cout << "You win!!" << endl;
-//     return 0;
-//
-//   }else{
-//
-//     cout << "AI wins!!" << endl;
-//     return 0;
-//
-//   }
-//
-// }
+//Drives C4 (unimplemented)
+void playC4(){}
+
+int main() {
+
+  switch(gamePrompt()){
+    case 1:
+      playTTT();
+
+    case 2:
+      playC4();
+
+  }
+
+}

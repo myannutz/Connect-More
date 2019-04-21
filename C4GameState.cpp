@@ -101,7 +101,7 @@ void C4GameState::print(){
 
 }
 
-int C4GameState::vertHeuristic(bool player){
+int C4GameState::count1(bool player){
 
   for(int i = 0; i < 7; i++){
 
@@ -111,6 +111,26 @@ int C4GameState::vertHeuristic(bool player){
   }
 
 }
+
+int C4GameState::count2(bool player){
+
+  //Rows
+  for(int  i = 0; i < 6; i++){
+
+    //Columns
+    for(int j = 0; j < 7; j++){
+
+      //Watch for double-counting
+
+    }
+
+  }
+
+}
+
+int C4GameState::count3(bool player){}
+
+int C4GameState::count4(bool player){}
 
 //High value is good for AI. Low value is good for player.
 int C4GameState::heuristic(bool player){
