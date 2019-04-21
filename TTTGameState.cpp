@@ -57,8 +57,11 @@ std::vector<std::string> TTTGameState::getValidMoves(bool player) {
 
 bool TTTGameState::isValid(std::string move, bool player) {
   int r = move[0] - 48;
+  //std::cout << "R: " << r << " "; //Debug
   int c = move[1] - 48;
+  //std::cout << "C: " << c << " "; //Debug
   char m = move[2];
+  //std::cout << "M: " << m << std::endl; //Debug
   bool validR = r > -1 && r < 3;
   bool validC = r > -1 && r < 3;
   bool validM = (player == X_PLAYER) ? m == 'x' : m == 'o';
@@ -67,12 +70,15 @@ bool TTTGameState::isValid(std::string move, bool player) {
 }
 
 void TTTGameState::print() {
+  std::cout << " ------" << std::endl;
   for (int i = 0; i < 3; i++) {
+    std::cout << "|";
     for (int j = 0; j < 3; j++) {
       std::cout << board[i][j] << " ";
     }
-    std::cout << std::endl;
+    std::cout << "|" << std::endl;
   }
+  std::cout << " ------" << std::endl;
 }
 
 int TTTGameState::heuristic(bool player) {

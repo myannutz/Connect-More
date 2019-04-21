@@ -19,17 +19,17 @@ std::string AI::getBestMove(GameState *gs) {
   int bestMoveScore = INT_MIN;
   std::string bestMove = "";
   for (auto m : moves) {
-    std::cout << "move: " << m << std::endl;
+    //std::cout << "move: " << m << std::endl;
     gameTree = new TreeNode(gs->move(m), maxDepth, !player);
     int score = minimax(gameTree);
-    std::cout << "score: " << score << std::endl;
+    //std::cout << "score: " << score << std::endl;
     if (score > bestMoveScore) {
       bestMoveScore = score;
       bestMove = m;
     }
     delete gameTree;
   }
-  std::cout << "best move h value: " << bestMoveScore << std::endl;
+  //std::cout << "best move h value: " << bestMoveScore << std::endl;
   return bestMove;
 }
 
