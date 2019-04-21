@@ -165,7 +165,7 @@ int C4GameState::count3(bool player) {
   return count;
 }
 
-int C4GameState::isWon(bool player) {
+bool C4GameState::isWon(bool player) {
   char playerChar = 'o';
   if (player == X_PLAYER) playerChar = 'x';
 
