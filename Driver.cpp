@@ -156,10 +156,12 @@ void playTTT(){
     master->print();
 
     //AI turn
-    string bm = ai.getBestMove(master);
-    cout << "AI is playing..." << bm << endl;
-    master = master->move(bm);
-    cout << endl;
+    if (player == TTTGameState::X_PLAYER) {
+      string bm = ai.getBestMove(master);
+      cout << "AI is playing..." << bm << endl;
+      master = master->move(bm);
+      cout << endl;
+    }
 
     //Check for win or tie
     if(master->isWon(player)){
@@ -169,6 +171,7 @@ void playTTT(){
       return;
 
     }
+
     if(master->isWon(!player)){
 
       master->print();
@@ -185,8 +188,6 @@ void playTTT(){
     }
 
   }
-
-
 
 }
 
@@ -222,33 +223,14 @@ void playC4(){
       master = master->move(playerMove);
     }
 
+    if(checkEnd(master)) return;
+
     //AI turn
     string bm = ai.getBestMove(master);
     cout << "AI is playing..." << endl;
     master = master->move(bm);
 
-    //Check for win or tie
-    if(master->isWon(true)){
-
-      master->print();
-      cout << "Player wins!!" << endl;
-      return;
-
-    }
-    if(master->isWon(false)){
-
-      master->print();
-      cout << "AI wins!!" << endl;
-      return;
-
-    }
-    if(master->getValidMoves(true).empty()){
-
-      master->print();
-      cout << "Tie!" << endl;
-      return;
-
-    }
+    if(checkEnd(master)) return;
   }
 
 }
@@ -259,11 +241,9 @@ int main() {
 
     case 1:
       playTTT();
-      break;
 
     case 2:
       playC4();
-      break;
 
   }
 
