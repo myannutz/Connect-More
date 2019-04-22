@@ -11,7 +11,7 @@ TreeNode::TreeNode(GameState *gs, int depth, bool player) {
   this->player = player;
 
   std::vector<std::string> moves = gs->getValidMoves(player);
-  if (gs->isWon(player) || gs->isWon(!player)) return;
+  if (gs->isWon(player) || gs->isWon(!player) || depth == 0) return;
   for (auto m : moves) {
     children.push_back(new TreeNode(gs->move(m), depth - 1, !player));
   }

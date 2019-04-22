@@ -23,8 +23,10 @@ public:
   std::vector<std::string> getValidMoves(bool player);
   bool isValid(std::string move, bool player);
   void print();
-  int heuristic(bool player);
+  int count2(bool player);
+  int count3(bool player);
   bool isWon(bool player);
+  int heuristic(bool player);
 };
 
 #endif

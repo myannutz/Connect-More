@@ -1,6 +1,10 @@
 #include "C4GameState.hpp"
 #include <iostream>
 
+#include <string>
+
+using namespace std;
+
 C4GameState::C4GameState(){
   board = new char*[6];
   for(int i = 0; i < 6; i++){
@@ -21,6 +25,16 @@ C4GameState(C4GameState *toCopy) {
   }
 }
 
+C4GameState::C4GameState(C4GameState *toCopy){
+  board = new char*[3];
+  for (int i = 0; i < 6; i++) {
+    board[i] = new char[3];
+    for (int j = 0; j < 7; j++) {
+      board[i][j] = toCopy->board[i][j];
+    }
+  }
+}
+
 C4GameState::~C4GameState(){
 
   for(int i = 0; i < 6; i++)
@@ -32,24 +46,29 @@ C4GameState::~C4GameState(){
 
 //Returns the index of the bottom most unfilled space in a particular column (-1 if column is full)
 int C4GameState::getUnfilledRow(int column){
-  for(int i = 0; i < 6; i--) {
+
+  for(int i = 5; i >= 0; i--){
+
     if(board[i][column] == ' ') return i;
+    
   }
   return -1;
 }
 
 //Pass a string as "cm" - c = column, m = character indicating which player
-GameState C4GameState::move(std::string move){
-  int c = move[0] - 48;
+GameState *C4GameState::move(string move){
+
+  int c = move[0] - 49;
   char m = move[1];
   C4GameState* gs = new C4GameState(this);
   gs->board[getUnfilledRow(c)][c] = m;
   return (GameState*)gs;
+
 }
 
-std::vector<std::string> C4GameState::getValidMoves(bool player){
+vector<string> C4GameState::getValidMoves(bool player){
 
-  std::vector<std::string> moves;
+  vector<string> moves;
   char playerChar = 'x';
   if(player == O_PLAYER) playerChar = 'o';
 
@@ -58,7 +77,7 @@ std::vector<std::string> C4GameState::getValidMoves(bool player){
     //If the row isn't full, push back a string
     if(getUnfilledRow(i) != -1){
 
-      moves.push_back(std::to_string(i) + std::to_string(playerChar));
+      moves.push_back(to_string(i + 1) + playerChar);
 
     }
 
@@ -68,31 +87,31 @@ std::vector<std::string> C4GameState::getValidMoves(bool player){
 
 }
 
-bool C4GameState::isValid(std::string move, bool player){
-  if (move.length() != 2) return false;
-  int c = move[0] - 48;
-  char m = move[1];
-  bool validC = (c > -1 && c < 7 && getUnfilledRow(c) != -1);
-  bool validM = (player == X_PLAYER) ? m == 'x' : m == 'o';
-  return validC && validM;
+bool C4GameState::isValid(string move, bool player){
+
+  if(getUnfilledRow(move[0] - 49) != -1 && (move[1] == 'o') == player) return true;
+  return false;
+
 }
 
 //Who doesn't love ASCII art
 void C4GameState::print(){
 
-  cout << "===============" << endl;
+  cout << "=============================" << endl;
   for(int i = 0; i < 6; i++){
 
-    cout << "|";
+    cout << "| ";
+
     for(int  j = 0; j < 7; j++){
 
-      cout << board[i][j] << "|";
+      cout << board[i][j] << " | ";
 
     }
     cout << endl;
 
   }
-  cout << "===============" << endl;
+  cout << "=============================" << endl;
+  cout << "| 1 | 2 | 3 | 4 | 5 | 6 | 7 |" << endl;
 
 }
 
@@ -100,7 +119,7 @@ int C4GameState::count2(bool player){
   char playerChar = 'o';
   if (player == X_PLAYER) playerChar = 'x';
   int count = 0;
-
+  
   //horizontal
   for (int r = 0; r < 6; r++){
     for (int c = 0; c < 5; c++){
@@ -153,47 +172,21 @@ int C4GameState::count3(bool player) {
     }
   }
 
-  //diagonal
-  for (int r = 0; r < 3; r++){
-    for (int c = 0; c < 4; c++){
-      if (board[r][c] == playerChar && board[r + 1][c + 1] == playerChar && board[r + 2][c + 2] == playerChar &&
-          board[r + 3][c + 3] == ' ' && (r == 2 || board[r + 4][c + 3] != ' ')) count++;
-      if (board[r][c + 3] == playerChar && board[r + 1][c + 2] == playerChar &&
-          board[r + 2][c + 1] == playerChar && board[r + 3][c] == ' ' && (r == 2 || board[r + 4][c] != ' ')) count++;
-
-      if (board[r][c] == ' ' && board[r + 1][c + 1] == playerChar &&
-          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar && board[r + 1][c] != ' ') count++;
-      if (board[r][c + 3] == ' ' && board[r + 1][c + 3] == playerChar &&
-          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar && board[r + 1][c + 3] != ' ') count++;
-    }
-  }
-  return count;
-}
-
-bool C4GameState::isWon(bool player) {
-  char playerChar = 'o';
-  if (player == X_PLAYER) playerChar = 'x';
-
-  for (int r = 0; r < 6; r++){
-    for (int c = 0; c < 4; c++){
-      if (board[r][c] == playerChar && board[r][c + 1] == playerChar &&
-          board[r][c + 2] == playerChar && board[r][c + 3] == playerChar) return true
-    }
-  }
-
   for (int c = 0; c < 7; c++) {
     for (int r = 0; r < 3; r++) {
       if (board[r][c] == playerChar && board[r + 1][c] == playerChar &&
-          board[r + 2][c] == playerChar && board[r + 3][c] == playerChar) return true
+          board[r + 2][c] == playerChar && board[r + 3][c] == playerChar) return true;
+
     }
   }
 
   for (int r = 0; r < 3; r++){
     for (int c = 0; c < 4; c++){
       if (board[r][c] == playerChar && board[r + 1][c + 1] == playerChar &&
-          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar) return true
+          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar) return true;
       if (board[r][c + 3] == playerChar && board[r + 1][c + 2] == playerChar &&
-          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar) return true
+          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar) return true;
+
     }
   }
   return false;
