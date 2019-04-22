@@ -34,6 +34,7 @@ public:
   // copy constructor
   // @param: pointer to gamestate to copy
   C4GameState(C4GameState *toCopy);
+  
   ~C4GameState();
 
   GameState *move(std::string move);
