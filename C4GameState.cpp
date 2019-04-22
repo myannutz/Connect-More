@@ -11,7 +11,7 @@ C4GameState::C4GameState(){
   }
 }
 
-C4GameState(C4GameState *toCopy) {
+C4GameState::C4GameState(C4GameState *toCopy) {
   board = new char*[6];
   for(int i = 0; i < 6; i++){
     board[i] = new char[7];
@@ -39,7 +39,7 @@ int C4GameState::getUnfilledRow(int column){
 }
 
 //Pass a string as "cm" - c = column, m = character indicating which player
-GameState C4GameState::move(std::string move){
+GameState* C4GameState::move(std::string move){
   int c = move[0] - 48;
   char m = move[1];
   C4GameState* gs = new C4GameState(this);
@@ -80,19 +80,19 @@ bool C4GameState::isValid(std::string move, bool player){
 //Who doesn't love ASCII art
 void C4GameState::print(){
 
-  cout << "===============" << endl;
+  std::cout << "===============" << std::endl;
   for(int i = 0; i < 6; i++){
 
-    cout << "|";
+    std::cout << "|";
     for(int  j = 0; j < 7; j++){
 
-      cout << board[i][j] << "|";
+      std::cout << board[i][j] << "|";
 
     }
-    cout << endl;
+    std::cout << std::endl;
 
   }
-  cout << "===============" << endl;
+  std::cout << "===============" << std::endl;
 
 }
 
@@ -177,23 +177,23 @@ bool C4GameState::isWon(bool player) {
   for (int r = 0; r < 6; r++){
     for (int c = 0; c < 4; c++){
       if (board[r][c] == playerChar && board[r][c + 1] == playerChar &&
-          board[r][c + 2] == playerChar && board[r][c + 3] == playerChar) return true
+          board[r][c + 2] == playerChar && board[r][c + 3] == playerChar) return true;
     }
   }
 
   for (int c = 0; c < 7; c++) {
     for (int r = 0; r < 3; r++) {
       if (board[r][c] == playerChar && board[r + 1][c] == playerChar &&
-          board[r + 2][c] == playerChar && board[r + 3][c] == playerChar) return true
+          board[r + 2][c] == playerChar && board[r + 3][c] == playerChar) return true;
     }
   }
 
   for (int r = 0; r < 3; r++){
     for (int c = 0; c < 4; c++){
       if (board[r][c] == playerChar && board[r + 1][c + 1] == playerChar &&
-          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar) return true
+          board[r + 2][c + 2] == playerChar && board[r + 3][c + 3] == playerChar) return true;
       if (board[r][c + 3] == playerChar && board[r + 1][c + 2] == playerChar &&
-          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar) return true
+          board[r + 2][c + 1] == playerChar && board[r + 3][c] == playerChar) return true;
     }
   }
   return false;

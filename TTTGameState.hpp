@@ -4,10 +4,10 @@
 #include "GameState.hpp"
 
 class TTTGameState : public GameState {
-private:
+public:
   static const bool X_PLAYER = false;
   static const bool O_PLAYER = true;
-public:
+
   TTTGameState();
   TTTGameState(TTTGameState *toCopy);
   ~TTTGameState();

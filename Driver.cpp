@@ -182,7 +182,12 @@ void playTTT(){
 }
 
 //Drives C4 (unimplemented)
-void playC4(){}
+void playC4() {
+  GameState* master = new C4GameState;
+  AI ai(false);
+
+  
+}
 
 int main() {
 

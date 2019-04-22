@@ -18,6 +18,7 @@ TreeNode::TreeNode(GameState *gs, int depth, bool player) {
 }
 
 TreeNode::~TreeNode() {
+  delete gs;
   if (children.size() == 0) return;
   for (auto Tp : children) {
     delete Tp;
