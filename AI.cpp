@@ -4,8 +4,8 @@
 #include <climits>
 #include <iostream>
 
-AI::AI(bool player) {
-  maxDepth = 6;
+AI::AI(bool player, int depth) {
+  maxDepth = depth;
   gameTree = 0;
   this->player = player;
 }
