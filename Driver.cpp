@@ -19,6 +19,7 @@ bool inputInRange(string check, int from, int to){
 
 }
 
+
 //Converts the user's input string to a TTT movestring usable by gs.move()
 //@param input the input string to convert
 //@param player whether player character is o
@@ -143,6 +144,7 @@ void playTTT(){
       master = master->move(playerMove);
     } else {
       while (!master->isValid(playerMove, true)) {
+
         cout << "Invalid move. Please choose again." << endl;
         getline(cin, playerMove);
         playerMove = toMovestring(playerMove, player);
@@ -151,27 +153,33 @@ void playTTT(){
       master = master->move(input);
     }
 
+    master->print();
+
     //AI turn
-    string bm = ai.getBestMove(master);
-    cout << "AI is playing..." << bm << endl;
-    master = master->move(bm);
+    if (player == TTTGameState::X_PLAYER) {
+      string bm = ai.getBestMove(master);
+      cout << "AI is playing..." << bm << endl;
+      master = master->move(bm);
+      cout << endl;
+    }
 
     //Check for win or tie
-    if(master->isWon(true)){
+    if(master->isWon(player)){
 
       master->print();
       cout << "Player wins!!" << endl;
       return;
 
     }
-    if(master->isWon(false)){
+
+    if(master->isWon(!player)){
 
       master->print();
       cout << "AI wins!!" << endl;
       return;
 
     }
-    if(master->getValidMoves(true).empty()){
+    if(master->getValidMoves(player).empty() && master->getValidMoves(!player).empty()){
 
       master->print();
       cout << "Tie!" << endl;
@@ -223,7 +231,6 @@ void playC4(){
     master = master->move(bm);
 
     if(checkEnd(master)) return;
-
   }
 
 }
@@ -231,6 +238,7 @@ void playC4(){
 int main() {
 
   switch(gamePrompt()){
+
     case 1:
       playTTT();
 

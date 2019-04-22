@@ -12,6 +12,8 @@ private:
   static const bool O_PLAYER = true;
 
   int getUnfilledRow(int column);
+  int count2(bool player);
+  int count3(bool player);
 public:
   C4GameState();
   C4GameState(C4GameState *toCopy);
