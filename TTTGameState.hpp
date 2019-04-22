@@ -9,7 +9,11 @@ public:
   static const bool O_PLAYER = true;
 
   TTTGameState();
+  
+  // copy constructor
+  // @param: pointer to gamestate to copy
   TTTGameState(TTTGameState *toCopy);
+  
   ~TTTGameState();
 
   GameState *move(std::string move);
