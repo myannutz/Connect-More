@@ -32,7 +32,7 @@ C4GameState::~C4GameState(){
 
 //Returns the index of the bottom most unfilled space in a particular column (-1 if column is full)
 int C4GameState::getUnfilledRow(int column){
-  for(int i = 0; i < 6; i--) {
+  for(int i = 5; i >= 0; i--){
     if(board[i][column] == ' ') return i;
   }
   return -1;
