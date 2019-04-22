@@ -14,8 +14,17 @@ private:
   int getUnfilledRow(int column);
 public:
   C4GameState();
+  C4GameState(C4GameState *toCopy);
   ~C4GameState();
 
+  GameState *move(std::string move);
+  std::vector<std::string> getValidMoves(bool player);
+  bool isValid(std::string move, bool player);
+  void print();
+  int count2(bool player);
+  int count3(bool player);
+  bool isWon(bool player);
+  int heuristic(bool player);
 };
 
 #endif

@@ -5,7 +5,7 @@
 #include <iostream>
 
 AI::AI(bool player) {
-  maxDepth = 8;
+  maxDepth = 3;
   gameTree = 0;
   this->player = player;
 }
@@ -19,10 +19,10 @@ std::string AI::getBestMove(GameState *gs) {
   int bestMoveScore = INT_MIN;
   std::string bestMove = "";
   for (auto m : moves) {
-    //std::cout << "move: " << m << std::endl;
+    // std::cout << "move: " << m << std::endl;
     gameTree = new TreeNode(gs->move(m), maxDepth, !player);
     int score = minimax(gameTree);
-    //std::cout << "score: " << score << std::endl;
+    // std::cout << "score: " << score << std::endl;
     if (score > bestMoveScore) {
       bestMoveScore = score;
       bestMove = m;
