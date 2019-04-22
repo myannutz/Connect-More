@@ -93,7 +93,7 @@ void playTTT(){
   player = (input == "1") ? TTTGameState::X_PLAYER : TTTGameState::O_PLAYER;
 
   GameState* master = new TTTGameState;
-  AI ai(!player);
+  AI ai(!player, 9);
   string playerMove = "";
 
   //Game
@@ -206,7 +206,7 @@ void playC4() {
   //TODO: allow player to choose x or o
 
   GameState* master = new C4GameState;
-  AI ai(false);
+  AI ai(false, 6);
   string input;
   string playerMove;
   bool player = true;
@@ -270,10 +270,10 @@ int main() {
   switch(gamePrompt()) {
     case 1:
       playTTT();
-
+      break;
     case 2:
       playC4();
-
+      break;
   }
 
 }
