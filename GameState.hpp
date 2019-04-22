@@ -8,6 +8,7 @@ class GameState {
 protected:
   char **board;
 public:
+  // destructor
   virtual ~GameState(){};
 
   // move function
