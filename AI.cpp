@@ -5,7 +5,7 @@
 #include <iostream>
 
 AI::AI(bool player) {
-  maxDepth = 3;
+  maxDepth = 1;
   gameTree = 0;
   this->player = player;
 }

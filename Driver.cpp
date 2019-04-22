@@ -92,33 +92,6 @@ int gamePrompt(){
 
 }
 
-bool checkEnd(GameState* master){
-
-  //Check for win or tie
-  if(master->isWon(true)){
-
-    master->print();
-    cout << "Player wins!!" << endl;
-    return true;
-
-  }
-  if(master->isWon(false)){
-
-    master->print();
-    cout << "AI wins!!" << endl;
-    return true;
-
-  }
-  if(master->getValidMoves(true).empty()){
-
-    master->print();
-    cout << "Tie!" << endl;
-    return true;
-
-  }
-
-}
-
 //Drives tic tac toe
 void playTTT(){
 
@@ -213,16 +186,36 @@ void playC4(){
         playerMove = (player) ? (playerMove + 'x') : (playerMove + 'o');
       }
       master = master->move(playerMove);
+      master->print();
     }
-
-    if(checkEnd(master)) return;
 
     //AI turn
     string bm = ai.getBestMove(master);
     cout << "AI is playing..." << endl;
     master = master->move(bm);
 
-    if(checkEnd(master)) return;
+    //Check for win or tie
+    if(master->isWon(true)){
+
+      master->print();
+      cout << "Player wins!!" << endl;
+      return;
+
+    }
+    if(master->isWon(false)){
+
+      master->print();
+      cout << "AI wins!!" << endl;
+      return;
+
+    }
+    if(master->getValidMoves(true).empty()){
+
+      master->print();
+      cout << "Tie!" << endl;
+      return;
+
+    }
 
   }
 
@@ -233,9 +226,11 @@ int main() {
   switch(gamePrompt()){
     case 1:
       playTTT();
+      break;
 
     case 2:
       playC4();
+      break;
 
   }
 
