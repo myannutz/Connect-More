@@ -6,7 +6,7 @@
 
 //Constructor
 TreeNode::TreeNode(GameState *gs, int depth, bool player) {
-  //std::cout << "begin" << std::endl;
+  std::cout << "begin" << std::endl;
   this->gs = gs;
   this->depth = depth;
   this->player = player;
@@ -14,7 +14,7 @@ TreeNode::TreeNode(GameState *gs, int depth, bool player) {
   std::vector<std::string> moves = gs->getValidMoves(player);
   if (gs->isWon(player) || gs->isWon(!player) || depth == 0) return;
   for (auto m : moves) {
-    //std::cout << "adding child" << std::endl;
+    std::cout << "adding child" << std::endl;
     children.push_back(new TreeNode(gs->move(m), depth - 1, !player));
   }
 }
