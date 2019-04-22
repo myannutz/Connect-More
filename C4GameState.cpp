@@ -21,7 +21,7 @@ C4GameState::C4GameState(C4GameState *toCopy) {
   }
 }
 
-C4GameState::~C4GameState(){
+C4GameState::~C4GameState() {
 
   for(int i = 0; i < 6; i++)
     delete[] board[i];
@@ -31,7 +31,7 @@ C4GameState::~C4GameState(){
 }
 
 //Returns the index of the bottom most unfilled space in a particular column (-1 if column is full)
-int C4GameState::getUnfilledRow(int column){
+int C4GameState::getUnfilledRow(int column) {
   for(int i = 5; i >= 0; i--){
     if(board[i][column] == ' ') return i;
   }
@@ -39,7 +39,7 @@ int C4GameState::getUnfilledRow(int column){
 }
 
 //Pass a string as "cm" - c = column, m = character indicating which player
-GameState* C4GameState::move(std::string move){
+GameState* C4GameState::move(std::string move) {
   int c = move[0] - 48;
   char m = move[1];
   C4GameState* gs = new C4GameState(this);
@@ -58,7 +58,7 @@ std::vector<std::string> C4GameState::getValidMoves(bool player){
     //If the row isn't full, push back a string
     if(getUnfilledRow(i) != -1){
 
-      moves.push_back(std::to_string(i) + std::to_string(playerChar));
+      moves.push_back(std::to_string(i) + playerChar);
 
     }
 
@@ -80,19 +80,20 @@ bool C4GameState::isValid(std::string move, bool player){
 //Who doesn't love ASCII art
 void C4GameState::print(){
 
-  std::cout << "===============" << std::endl;
+  std::cout << "=============================" << std::endl;
   for(int i = 0; i < 6; i++){
 
-    std::cout << "|";
+    std::cout << "| ";
     for(int  j = 0; j < 7; j++){
 
-      std::cout << board[i][j] << "|";
+      std::cout << board[i][j] << " | ";
 
     }
     std::cout << std::endl;
 
   }
-  std::cout << "===============" << std::endl;
+  std::cout << "=============================" << std::endl;
+  std::cout << "| 1 | 2 | 3 | 4 | 5 | 6 | 7 |" << std::endl;
 
 }
 

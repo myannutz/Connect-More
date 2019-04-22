@@ -194,9 +194,9 @@ string c4PromptForMove(bool player){
     getline(cin, input);
 
   }
-  input = (player) ? (input + 'o') : (input + 'x');
+  int inputC = stoi(input) - 1;
+  input = (player) ? (to_string(inputC) + 'o') : (to_string(inputC) + 'x');
   return input;
-
 }
 
 
