@@ -4,35 +4,31 @@
 #include <string>
 #include <iostream>
 
-//Constructor
 TreeNode::TreeNode(GameState *gs, int depth, bool player) {
-  //std::cout << "begin" << std::endl;
+  // initialize data members
   this->gs = gs;
   this->depth = depth;
   this->player = player;
 
-  std::vector<std::string> moves = gs->getValidMoves(player);
-  if (gs->isWon(player) || gs->isWon(!player) || depth == 0) return;
-  for (auto m : moves) {
-    //std::cout << "adding child" << std::endl;
-    children.push_back(new TreeNode(gs->move(m), depth - 1, !player));
+  std::vector<std::string> moves = gs->getValidMoves(player); // get possible moves
+  if (gs->isWon(player) || gs->isWon(!player) || depth == 0) return; // this should be a leaf node
+  for (auto m : moves) { // iterate over moves
+    children.push_back(new TreeNode(gs->move(m), depth - 1, !player)); // add a child
   }
 }
 
 TreeNode::~TreeNode() {
-  delete gs;
-  if (children.size() == 0) return;
+  delete gs; // free memory for game state
+  if (children.size() == 0) return; // base case
   for (auto Tp : children) {
-    delete Tp;
+    delete Tp; // recursively delete each child
   }
 }
 
-//Getter for children vector
 std::vector<TreeNode*> TreeNode::getChildren() {
   return children;
 }
 
-//GameState getter
 GameState* TreeNode::getGameState() {
   return gs;
 }
