@@ -340,6 +340,8 @@ int main() {
       //cout << "Moving to " << playerMove << endl;
       master = master->move(playerMove);
     }
+    
+    if (checkEnd(master, player)) return 0;
 
     master->print();
     cout << endl;
